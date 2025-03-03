@@ -1,0 +1,17 @@
+{
+    "folders": [
+        {
+            "path": "../../../sapui53"
+        },
+        {
+            "path": "../.."
+        },
+        {
+            "path": "../../../CRUD_sapBlog"
+        },
+        {
+            "path": "../../../learn-react"
+        }
+    ],
+    "settings": {}
+}

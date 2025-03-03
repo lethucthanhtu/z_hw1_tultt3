@@ -1,0 +1,50 @@
+{
+    "ui5": {
+        "ui5linter": {
+            "idNamingPattern": "",
+            "eventNamingPattern": "",
+            "severity": {
+                "WrongParametersLinter": "Error",
+                "WrongOverrideLinter": "Error",
+                "WrongImportLinter": "Warning",
+                "WrongFilePathLinter": "Warning",
+                "WrongFieldMethodLinter": "Warning",
+                "WrongClassNameLinter": "Warning",
+                "UnusedTranslationsLinter": "Information",
+                "UnusedNamespaceLinter": "Error",
+                "UnusedMemberLinter": "Information",
+                "TagLinter": "Error",
+                "TagAttributeLinter": "Error",
+                "TagAttributeDefaultValueLinter": "Information",
+                "PublicMemberLinter": "Information",
+                "InterfaceLinter": "Error",
+                "AbstractClassLinter": "Error",
+                "UnusedClassLinter": "Error",
+                "WrongNamespaceLinter": "Warning",
+                "DuplicateTranslationLinter": "Error",
+                "EventTypeLinter": "Error"
+            },
+            "usage": {
+                "WrongParametersLinter": true,
+                "WrongOverrideLinter": true,
+                "WrongImportLinter": false,
+                "WrongFilePathLinter": true,
+                "WrongFieldMethodLinter": false,
+                "WrongClassNameLinter": true,
+                "UnusedTranslationsLinter": true,
+                "UnusedNamespaceLinter": true,
+                "UnusedMemberLinter": false,
+                "TagLinter": false,
+                "TagAttributeLinter": false,
+                "TagAttributeDefaultValueLinter": true,
+                "PublicMemberLinter": false,
+                "InterfaceLinter": true,
+                "AbstractClassLinter": true,
+                "UnusedClassLinter": true,
+                "WrongNamespaceLinter": true,
+                "DuplicateTranslationLinter": true,
+                "EventTypeLinter": true
+            }
+        }
+    }
+}

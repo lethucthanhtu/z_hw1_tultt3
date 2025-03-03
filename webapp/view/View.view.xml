@@ -1,0 +1,388 @@
+<mvc:View
+    xmlns:table="sap.ui.table"
+    xmlns:core="sap.ui.core"
+    xmlns:smartfilterbar="sap.ui.comp.smartfilterbar"
+    xmlns:smarttable="sap.ui.comp.smarttable"
+    controllerName="zhw1tultt3.controller.View"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <Page id="page" title="Manage Product" class="sapUiResponsiveContentPadding">
+        <headerContent>
+            <Button icon="sap-icon://dark-mode" press="onChangeTheme" />
+        </headerContent>
+        <content>
+            <smartfilterbar:SmartFilterBar
+                id="idSmartFilterBar"
+                entitySet="ProductSet"
+                header="Filter Products"
+                app:useContainsAsDefaultFilter="true"
+            >
+                <smartfilterbar:controlConfiguration>
+                    <smartfilterbar:ControlConfiguration
+                        id="idProductID"
+                        visibleInAdvancedArea="true"
+                        label="Product ID"
+                        key="ProductID"
+                    />
+                    <smartfilterbar:ControlConfiguration
+                        id="idCategory"
+                        visibleInAdvancedArea="true"
+                        label="Category"
+                        key="Category"
+                    />
+                </smartfilterbar:controlConfiguration>
+                <smartfilterbar:layoutData>
+                    <FlexItemData shrinkFactor="0" />
+                </smartfilterbar:layoutData>
+            </smartfilterbar:SmartFilterBar>
+            <VBox
+                fitContainer="true"
+                height="100%"
+                width="100%"
+            >
+                <smarttable:SmartTable
+                    id="idSmartTable"
+                    header="Product"
+                    entitySet="ProductSet"
+                    smartFilterId="idSmartFilterBar"
+                    editable="{= ${localModel>/bEditVisible}}"
+                    class="sapUiResponsiveContentPadding"
+                    useTablePersonalisation="false"
+                    enableAutoBinding="true"
+                    enableExport="false"
+                    app:useSmartToggle="true"
+                    app:useSmartField="true"
+                    app:liveChange="onLiveChange"
+                    initiallyVisibleFields="ProductID,Name,SupplierID,SupplierName,Price,Category"
+                >
+                    <smarttable:customToolbar>
+                        <OverflowToolbar>
+                            <ToolbarSpacer />
+                            <Toolbar id="idEditToolbar" visible="{= ${localModel>/bEditVisible}}" style="Clear">
+                                <GenericTag id="idGenericTag" text="Not Updated" status="Success" />
+                                <Button text="Reset" type="Ghost" press="onReset" />
+                                <Button text="Add" type="Ghost" press="onAdd" />
+                                <Button text="Remove" type="Reject" press="onRemove" />
+                            </Toolbar>
+                            <Text text="Edit mode" />
+                            <Switch change="onEditMode" />
+                            <ToolbarSeparator />
+                            <Button id="idSend" text="Send" type="Emphasized" press="onSend" />
+                        </OverflowToolbar>
+                    </smarttable:customToolbar>
+                    <Table mode="MultiSelect" headerText="">
+                        <columns>
+                            <Column
+                                id="idEditCol"
+                                hAlign="Center"
+                                vAlign="Middle"
+                                visible="{= ${localModel>/bEditVisible}}"
+                                width="3rem"
+                            >
+                                <customData>
+                                    <core:CustomData
+                                        key="p13nData"
+                                        value="\{
+                                            columnKey: 'editStatus',
+                                            columnIndex: 0
+                                        }"
+                                    />
+                                </customData>
+                                <core:Icon src="sap-icon://edit" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <core:Icon />
+                                    <ObjectIdentifier title="{ProductID}" />
+                                    <HBox>
+                                        <Text text="{Name}" visible="{= !${localModel>/bEditVisible}}" />
+                                        <Input
+                                            value="{
+                                                path: 'Name',
+                                                type: 'sap.ui.model.type.String',
+                                                constraints: {
+                                                    minLength: 3
+                                                }
+                                            }"
+                                            name="{Name}"
+                                            valueStateText="length must be bigger than 3"
+                                            visible="{= ${localModel>/bEditVisible}}"
+                                            liveChange="onLiveChange"
+                                        />
+                                    </HBox>
+                                    <ObjectIdentifier title="{SupplierID}" />
+                                    <HBox>
+                                        <Text text="{SupplierName}" visible="{= !${localModel>/bEditVisible}}" />
+                                        <Input
+                                            value="{
+                                                path: 'SupplierName',
+                                                type: 'sap.ui.model.type.String',
+                                                constraints: {
+                                                    minLength: 3
+                                                }
+                                            }"
+                                            name="{SupplierName}"
+                                            visible="{= ${localModel>/bEditVisible}}"
+                                            liveChange="onLiveChange"
+                                        />
+                                    </HBox>
+                                    <HBox>
+                                        <ObjectNumber
+                                            number="{
+                                                parts: [
+                                                    { path: 'Price' },
+                                                    { path: 'CurrencyCode' }
+                                                ],
+                                                type: 'sap.ui.model.type.Currency',
+                                                formatOptions: { showMeasure: false }
+                                            }"
+                                            unit="{CurrencyCode}"
+                                            visible="{= !${localModel>/bEditVisible}}"
+                                        />
+                                        <Input
+                                            value="{Price}"
+                                            name="{Price}"
+                                            valueStateText="Input must be a Number"
+                                            type="Number"
+                                            visible="{= ${localModel>/bEditVisible}}"
+                                            liveChange="onLiveChange"
+                                        />
+                                    </HBox>
+                                    <HBox>
+                                        <Text text="{Category}" visible="{= !${localModel>/bEditVisible}}" />
+                                        <!-- <ComboBox
+                                            items="/VH_Category"
+                                            selectedKey="{
+                                                path: 'Category'
+                                            }"
+                                            value="{Category}"
+                                            visible="{= ${localModel>/bEditVisible}}"
+                                        /> -->
+                                        <Input
+                                            value="{
+                                                path: 'Category',
+                                                type: 'sap.ui.model.type.String',
+                                                constraints: {
+                                                    minLength: 3
+                                                }
+                                            }"
+                                            name="{Category}"
+                                            visible="{= ${localModel>/bEditVisible}}"
+                                            liveChange="onLiveChange"
+                                        />
+                                    </HBox>
+                                    <HBox>
+                                        <Text text="{Description}" visible="{= !${localModel>/bEditVisible}}" />
+                                        <Input
+                                            value="{
+                                                path: 'Description',
+                                                type: 'sap.ui.model.type.String',
+                                                constraints: {
+                                                    minLength: 3
+                                                }
+                                            }"
+                                            name="{Description}"
+                                            visible="{= ${localModel>/bEditVisible}}"
+                                            liveChange="onLiveChange"
+                                        />
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                    <smarttable:layoutData>
+                        <FlexItemData growFactor="1" baseSize="0%" />
+                    </smarttable:layoutData>
+                </smarttable:SmartTable>
+            </VBox>
+
+            <!-- <VBox fitContainer="true">
+                <ScrollContainer
+                        height="35rem"
+                        width="100%"
+                        vertical="true"
+                        focusable="true">
+                    <Table
+                        id="idTable"
+                        items="{/ProductSet}"
+                        mode="MultiSelect"
+                        alternateRowColors="true"
+                        sticky="ColumnHeaders"
+                        autoPopinMode="true"
+                        growing="true"
+                        growingThreshold="25"
+                        growingScrollToLoad="true"
+                        class="sapUiResponsiveContentPadding">
+                        <headerToolbar> <OverflowToolbar>
+                                <Title text="Product" />
+                                <Label text="(total)"/>
+                                <ToolbarSpacer/>
+                                <Toolbar id="idEditToolbar" visible="false" style="Clear">
+                                    <GenericTag id="idUpdateTag" text="Not Updated" status="Success"/>
+                                    <Button id="idReset" text="Reset" type="Ghost" press="onReset"/>
+                                    <Button id="idAdd" text="Add" type="Ghost" press="onAdd"/>
+                                    <Button id="idRemove" text="Remove" type="Reject" press="onRemove"/>
+                                </Toolbar>
+                                <Text text="Edit mode"/>
+                                <Switch change="onEditMode"/>
+                                <ToolbarSeparator/>
+                                <Button id="idSend" text="Send" type="Emphasized" press="onSend"/>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column id="idEditStatus" hAlign="Center" width="3rem">
+                                <core:Icon src="sap-icon://edit"/>
+                            </Column>
+                            <Column><Text text="Product ID"/></Column>
+                            <Column><Text text="Product Name"/></Column>
+                            <Column><Text text="Bus. Part. ID"/></Column>
+                            <Column><Text text="Company Name"/></Column>
+                            <Column><Text text="Unit Price"/></Column>
+                            <Column><Text text="Prod. Cat."/></Column>
+                            <Column><Text text="Currency"/></Column>
+                            <Column><Text text="Prod. Type Code"/></Column>
+                            <Column><Text text="Language"/></Column>
+                            <Column><Text text="Prod.Descrip."/></Column>
+                            <Column><Text text="Prod.Descrip. Language"/></Column>
+                            <Column><Text text="Prod. Tax Code"/></Column>
+                            <Column><Text text="Qty. MeasureUnit"/></Column>
+                            <Column><Text text="Wt. Measure"/></Column>
+                            <Column><Text text="Qty. WeightUnit"/></Column>
+                            <Column><Text text="Width"/></Column>
+                            <Column><Text text="Height"/></Column>
+                            <Column><Text text="Depth"/></Column>
+                            <Column><Text text="Dim. Unit"/></Column>
+                            <Column><Text text="Create ime Stamp"/></Column>
+                            <Column><Text text="Change ime Stamp"/></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="x"/>
+                                    <ObjectIdentifier title="{ProductID}"/>
+                                    <HBox>
+                                        <Text text="{Name}"/>
+                                        <Input value="{Name}" visible="false"/>
+                                    </HBox>
+                                    <ObjectIdentifier title="{SupplierID}"/>
+                                    <HBox>
+                                        <Text text="{SupplierName}"/>
+                                        <Input value="{SupplierName}" visible="false"/>
+                                    </HBox>
+                                    <HBox>
+                                        <ObjectNumber
+                                            number="{
+                                                parts: [
+                                                    { path: 'Price' },
+                                                    { path: 'CurrencyCode' }
+                                                ],
+                                                type: 'sap.ui.model.type.Currency',
+                                                formatOptions: { showMeasure: false }
+                                            }"
+                                            unit="{CurrencyCode}"/>
+                                        <Input value="{Price}" type="Number" visible="false"/>
+                                    </HBox>
+                                    <HBox>
+                                        <Text text="{Category}"/>
+                                        <Input value="{Category}" visible="false"/>
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                    <layoutData>
+                        <FlexItemData growFactor="1" />
+                    </layoutData>
+                </ScrollContainer>
+            </VBox> -->
+
+            <!-- <VBox fitContainer="true">
+                <table:Table id="idTable" rows="{/ProductSet}">
+                    <table:extension>
+                        <OverflowToolbar>
+                            <Title text="Product" />
+                            <Label text="(total)"/>
+                            <ToolbarSpacer/>
+                            <Toolbar id="idEditToolbar" visible="false">
+                                <GenericTag id="idUpdateTag" text="Not Updated" status="Success"/>
+                                <Button id="idReset" text="Reset" type="Ghost" press="onReset"/>
+                                <Button id="idAdd" text="Add" type="Ghost" press="onAdd"/>
+                                <Button id="idRemove" text="Remove" type="Reject" press="onRemove"/>
+                            </Toolbar>
+                            <Text text="Edit mode"/>
+                            <Switch change="onEditMode"/>
+                            <ToolbarSeparator/>
+                            <Button id="idSend" text="Send" type="Emphasized" press="onSend"/>
+                        </OverflowToolbar>
+                    </table:extension>
+                    <table:columns>
+                        <table:Column id="idEditStatus" hAlign="Center" visible="false" width="3rem" >
+                            <core:Icon src="sap-icon://edit"/>
+                            <table:template>
+                                <Text text=""/>
+                            </table:template>
+                        </table:Column>
+                        <table:Column label="Product ID">
+                            <table:template>
+                                <ObjectIdentifier title="{ProductID}"/>
+                            </table:template>
+                        </table:Column>
+                        <table:Column label="Prod. Type Code">
+                            <table:template>
+                                <Text text="{TypeCode}"/>
+                            </table:template>
+                        </table:Column>
+                        <table:Column label="Category">
+                            <table:template>
+                                <ObjectNumber number="{
+                                        parts: [
+                                            { path: 'Price' },
+                                            { path: 'CurrencyCode' }
+                                        ],
+                                        type: 'sap.ui.model.type.Currency',
+                                        formatOptions: { showMeasure: false }
+                                    }"
+                                    unit="{CurrencyCode}"/>
+                            </table:template>
+                        </table:Column>
+                        <table:Column label="Product Name">
+                            <table:template>
+                                <Text text="{Name}"/>
+                            </table:template>
+                        </table:Column>
+                        <table:Column label="Language">
+                            <table:template>
+                                <Text text="{NameLanguage}"/>
+                            </table:template>
+                        </table:Column>
+                        <table:Column label="Description" width="35%">
+                            <table:template>
+                                <Text text="{Description}"/>
+                            </table:template>
+                        </table:Column>
+                        <table:Column label="Description Language">
+                            <table:template>
+                                <Text text="{DescriptionLanguage}"/>
+                            </table:template>
+                        </table:Column>
+                        <table:Column label="Supplier ID">
+                            <table:template>
+                                <ObjectIdentifier title="{SupplierID}"/>
+                            </table:template>
+                        </table:Column>
+                        <table:Column label="Supplier Name">
+                            <table:template>
+                                <Text text="{SupplierName}"/>
+                            </table:template>
+                        </table:Column>
+                    </table:columns>
+                </table:Table>
+            </VBox> -->
+        </content>
+    </Page>
+</mvc:View>
