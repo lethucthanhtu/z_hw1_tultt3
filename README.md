@@ -9,7 +9,7 @@
 |**Service Type**<br>OData Url|
 |**Service URL**<br>https://sapes5.sapdevcenter.com/sap/opu/odata/IWBEP/GWSAMPLE_BASIC/
 |**Module Name**<br>z_hw1_tultt3|
-|**Application Title**<br>OJT  homework 1 |
+|**Application Title**<br>OJT work 1 |
 |**Namespace**<br>|
 |**UI5 Theme**<br>sap_horizon_dark|
 |**UI5 Version**<br>1.120.0|
@@ -26,13 +26,8 @@ A Fiori application.
 -   This app has been generated using the SAP Fiori tools - App Generator, as part of the SAP Fiori tools suite.  In order to launch the generated app, simply run the following from the generated app root folder:
 
 ```
-    npm start
-```
-
-- It is also possible to run the application using mock data that reflects the OData Service URL supplied during application generation.  In order to run the application with Mock Data, run the following from the generated app root folder:
-
-```
-    npm run start-mock
+    npm i -g ui5/cli
+    ui5 serve
 ```
 
 #### Pre-requisites:
